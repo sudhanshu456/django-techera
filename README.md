@@ -2,8 +2,11 @@
 
 Don't forget to run the command 
 
-```python manage.py makemigrations```
+```python
+python manage.py makemigrations
+````
 and
+
 ```python
 python manage.py migrate
 ````
