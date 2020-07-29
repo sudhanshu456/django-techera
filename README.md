@@ -5,6 +5,7 @@ Don't forget to run the command
 ```python manage.py makemigrations```
 and
 ```python
-python manage.py migrate```
+python manage.py migrate
+````
 
 before you run 
