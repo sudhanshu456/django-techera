@@ -12,3 +12,6 @@ python manage.py migrate
 ````
 
 before you run 
+
+
+Django 3.0 Learning Series Code
