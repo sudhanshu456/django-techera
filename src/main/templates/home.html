@@ -6,10 +6,9 @@
     <ul class="list-group">
       {% for a in data %}
       
-      <li class="list-group-item"><p>{% if forloop.counter == 2 %}</p>{{ a.title|capfirst }}
-      {% else %}
-      <h1> im in else condition</h1>
-{% endif %}    
+      <li class="list-group-item"><p>{{ a.title|capfirst }}</p>
+      
+  
     </li>
       {% endfor %}
     </ul>

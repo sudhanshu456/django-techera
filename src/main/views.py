@@ -7,6 +7,19 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login,logout,authenticate
 from .models import Blogpost
 
+from .forms import BlogpostForm
+from django.views.generic import CreateView
+
+
+
+class CreateBlogPost(CreateView):
+    template_name='create.html'
+    form_class=BlogpostForm
+    success_url = '/'
+
+
+
+
 def index(request):
     
     return render(request,'test.html')
@@ -21,6 +34,9 @@ def data(request):
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
     form=UserCreationForm
     if request.method == 'POST':
         form=UserCreationForm(request.POST)
@@ -42,6 +58,9 @@ def logouts(request):
 
 
 def logins(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
     if request.method== 'POST':
         username = request.POST['username']
         password = request.POST['password']
