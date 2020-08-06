@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404,reverse
 from django.contrib import messages
 
 from django.http import HttpResponse
@@ -8,9 +8,17 @@ from django.contrib.auth import login,logout,authenticate
 from .models import Blogpost
 
 from .forms import BlogpostForm
-from django.views.generic import CreateView
+from django.views.generic import CreateView,DeleteView
 
 
+
+class DeleteBlogPost(DeleteView):
+    template_name='delete.html'
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Blogpost, id=id_)
+    def get_success_url(self):
+        return reverse('list')
 
 class CreateBlogPost(CreateView):
     template_name='create.html'
