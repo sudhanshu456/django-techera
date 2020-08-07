@@ -12,7 +12,10 @@
       
       
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}">Another Url</a>
+        <a class="nav-link" href="{% url 'index' %}">List</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'create' %}">Create</a>
       </li>
      
         {% if user.is_authenticated %}

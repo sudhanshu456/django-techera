@@ -8,7 +8,7 @@ from django.contrib.auth import login,logout,authenticate
 from .models import Blogpost
 
 from .forms import BlogpostForm
-from django.views.generic import CreateView,DeleteView
+from django.views.generic import CreateView,DeleteView,UpdateView
 
 
 
@@ -25,7 +25,14 @@ class CreateBlogPost(CreateView):
     form_class=BlogpostForm
     success_url = '/'
 
-
+class UpdateBlogPost(UpdateView):
+    template_name='create.html'
+    form_class=BlogpostForm
+    success_url = '/'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Blogpost, id=id_)
 
 
 def index(request):
