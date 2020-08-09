@@ -8,9 +8,19 @@ from django.contrib.auth import login,logout,authenticate
 from .models import Blogpost
 
 from .forms import BlogpostForm
-from django.views.generic import CreateView,DeleteView,UpdateView
+from django.views.generic import CreateView,DeleteView,UpdateView,ListView,DetailView
 
 
+
+class ListBlogPost(ListView):
+    template_name='list.html'
+    queryset=Blogpost.objects.all()
+    
+class DetailBlogPost(DetailView):
+    template_name='detail.html'
+    def get_object(self):
+        id_=self.kwargs.get("id")
+        return get_object_or_404(Blogpost,id=id_)
 
 class DeleteBlogPost(DeleteView):
     template_name='delete.html'
@@ -18,7 +28,7 @@ class DeleteBlogPost(DeleteView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Blogpost, id=id_)
     def get_success_url(self):
-        return reverse('list')
+        return reverse('main:list')
 
 class CreateBlogPost(CreateView):
     template_name='create.html'

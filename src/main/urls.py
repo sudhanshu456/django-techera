@@ -1,9 +1,13 @@
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 from . import views
+
+app_name = 'main'
 urlpatterns = [
     path('list',views.index,name='index'),
     path('',views.data,name='list'),
+    path('listview',views.ListBlogPost.as_view(),name='listview'),
+    path('<int:id>/detailview',views.DetailBlogPost.as_view(),name='detailview'),
     path('register',views.register,name='register'),
     path('logout',views.logouts,name='logout'),
     path('login',views.logins,name='login'),
@@ -11,3 +15,4 @@ urlpatterns = [
     path('<int:id>/delete/',login_required(views.DeleteBlogPost.as_view()), name='delete'),
     path('<int:id>/update/',login_required(views.UpdateBlogPost.as_view()), name='update'),
 ]
+
