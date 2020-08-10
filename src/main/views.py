@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404,reverse
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import HttpResponse
 # Create your views here.
@@ -16,13 +17,13 @@ class ListBlogPost(ListView):
     template_name='list.html'
     queryset=Blogpost.objects.all()
     
-class DetailBlogPost(DetailView):
+class DetailBlogPost(LoginRequiredMixin,DetailView):
     template_name='detail.html'
     def get_object(self):
         id_=self.kwargs.get("id")
         return get_object_or_404(Blogpost,id=id_)
 
-class DeleteBlogPost(DeleteView):
+class DeleteBlogPost(LoginRequiredMixin,DeleteView):
     template_name='delete.html'
     def get_object(self):
         id_ = self.kwargs.get("id")
@@ -30,12 +31,12 @@ class DeleteBlogPost(DeleteView):
     def get_success_url(self):
         return reverse('main:list')
 
-class CreateBlogPost(CreateView):
+class CreateBlogPost(LoginRequiredMixin,CreateView):
     template_name='create.html'
     form_class=BlogpostForm
     success_url = '/'
 
-class UpdateBlogPost(UpdateView):
+class UpdateBlogPost(LoginRequiredMixin,UpdateView):
     template_name='create.html'
     form_class=BlogpostForm
     success_url = '/'
