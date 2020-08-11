@@ -12,6 +12,15 @@ from .forms import BlogpostForm
 from django.views.generic import CreateView,DeleteView,UpdateView,ListView,DetailView
 
 
+## import for api
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import BlogSerializer
+
+
+
+
 
 class ListBlogPost(ListView):
     template_name='list.html'
@@ -101,3 +110,83 @@ def logins(request):
     else:
         return render(request,'login.html')    
 
+
+
+
+## api concept
+
+
+@api_view(["GET"])
+def apiOverview(request):
+    api_urls={
+        'list':'/bloglist/',
+        'detail':'/blogdetail/<str:pk>/',
+        'create': '/blogcreate/',
+        'update':'/blogcreate/<str:pk>/',
+        'delete':'/blogdelete/<str:pk>/',
+
+    }
+
+    return Response(api_urls)
+
+
+    
+@api_view(['GET'])
+def blogList(request):
+    posts=Blogpost.objects.all()
+    serializers=BlogSerializer(posts,many=True)
+    return Response(serializers.data)
+
+
+
+@api_view(['GET'])
+def blogDetail(request,pk):
+    posts=Blogpost.objects.get(id=pk)
+    serializers=BlogSerializer(posts,many=False)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def blogCreate(request):
+    serializers=BlogSerializer(data=request.data)
+    if serializers.is_valid():
+        serializers.save()
+    return Response(serializers.data)
+
+
+@api_view(['POST'])
+def blogUpdate(request,pk):
+    posts=Blogpost.objects.get(id=pk)
+    serializers=BlogSerializer(instance=posts,data=request.data)
+    if serializers.is_valid():
+        serializers.save()
+        
+    return Response(serializers.data)
+
+
+
+
+@api_view(['DELETE'])
+def blogDelete(request,pk):
+    posts=Blogpost.objects.get(id=pk)
+    posts.delete() 
+    return Response("item deleted ")
+
+
+
+
+
+
+##ajax
+
+
+
+def createajax(request):
+	form = BlogpostForm()
+	return render(request, "ajax_create.html", {"form": form})
+
+def ajaxRequest(request):
+	if request.method == "POST" and request.is_ajax():
+		form = BlogpostForm(request.POST)
+		form.save()
+		return JsonResponse({"success":True}, status=200)
+	return JsonResponse({"success":False}, status=400)

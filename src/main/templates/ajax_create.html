@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<form id='create-blog-ajax' method='POST'>
+    {% csrf_token %}
+    {{form.media}}
+    {{ form.as_p }}
+    <input type="submit" />
+</form>
+<script type="text/javascript">
+    $(document).ready(function(){
+       $("#create-blog-ajax").submit(function(e){
+        // prevent from normal form behaviour
+    
+              e.preventDefault();
+            // serialize the form data  
+    
+              var serializedData = $(this).serialize();
+              $.ajax({
+                  type : 'POST',
+                  url :  "{% url 'main:ajax-request' %}",
+                  data : serializedData,
+                  success : function(response){
+                //reset the form after successful submit
+                alert("submitted");
+                window.location.replace("http://localhost:8000");
+
+                      $("#create-blog-ajax")[0].reset(); 
+                  },
+                  error : function(response){
+                      console.log(response)
+                  }
+              });
+       });
+    });
+    </script>
+{% endblock %}
