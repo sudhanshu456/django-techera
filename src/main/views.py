@@ -150,10 +150,10 @@ def blogCreate(request):
     serializers=BlogSerializer(data=request.data)
     if serializers.is_valid():
         serializers.save()
-    return Response(serializers.data)
+        return Response(serializers.data)
+    return HttpResponse("error")
 
-
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def blogUpdate(request,pk):
     posts=Blogpost.objects.get(id=pk)
     serializers=BlogSerializer(instance=posts,data=request.data)

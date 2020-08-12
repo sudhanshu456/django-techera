@@ -20,7 +20,7 @@
               var serializedData = $(this).serialize();
               $.ajax({
                   type : 'POST',
-                  url :  "{% url 'main:ajax-request' %}",
+                  url :  "{% url 'main:blogCreate' %}",
                   data : serializedData,
                   success : function(response){
                 //reset the form after successful submit
